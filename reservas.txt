@@ -1,0 +1,1 @@
+Reserva{id=854902, cliente=Nicolas Delgado, fechaInicio=2026-08-20, estado=CONFIRMADA}
