@@ -1,0 +1,5 @@
+# Archivos generados por Maven/Java
+target/
+
+# Datos locales generados durante la ejecución
+reservas.txt
