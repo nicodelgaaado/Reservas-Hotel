@@ -6,6 +6,12 @@ import com.reservas.reservas.modelo.Cliente;
 import com.reservas.reservas.modelo.Reserva;
 import com.reservas.reservas.persistencia.ArchivoReservas;
 import com.reservas.reservas.servicios.ProcesadorReservas;
+import com.reservas.reservas.creacionales.builder.PaqueteServicioBuilder;
+import com.reservas.reservas.creacionales.factory.*;
+import com.reservas.reservas.creacionales.singleton.GeneradorFolioFiscal;
+import com.reservas.reservas.estructurales.adapter.*;
+import com.reservas.reservas.estructurales.decorator.*;
+import com.reservas.reservas.notificaciones.*;
 
 /**
  * @author Nicolas
@@ -22,5 +28,16 @@ public class Reservas {
         System.out.println("Despues de confirmar: " + reserva1);
         System.out.println("Tarifa final: " + tarifaFinal);
         ArchivoReservas.guardar(reserva1);
+
+        var paquete = new PaqueteServicioBuilder().incluyeDesayuno().incluyeSpa()
+                .incluyeTransporteAeropuerto().numeroPersonas(2).build();
+        System.out.println(paquete);
+        double recargo = PoliticaRecargoFactory.crear(TipoRecargo.TEMPORADA_ALTA).calcularRecargo(tarifaFinal);
+        String folio = GeneradorFolioFiscal.getInstance().generarFolio();
+        String factura = new DianInvoiceAdapter("900123456-7").emitirFactura(reserva1, tarifaFinal + recargo);
+        System.out.println(folio + " - " + factura);
+        CanalNotificacion notificador = new NotificadorSmsDecorator(
+                new NotificadorAuditoriaDecorator(new NotificacionWhatsApp()));
+        notificador.notificar(cliente1, "Reserva confirmada");
     }
 }
