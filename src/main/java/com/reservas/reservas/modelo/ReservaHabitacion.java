@@ -23,4 +23,9 @@ public final class ReservaHabitacion extends Reserva {
 
     public Habitacion getHabitacion() { return habitacion; }
     public RangoFechas getEstadia() { return estadia; }
+
+    @Override
+    public void liberarHabitacion() {
+        habitacion.liberar();
+    }
 }

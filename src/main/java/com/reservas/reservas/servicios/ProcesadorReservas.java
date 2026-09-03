@@ -1,8 +1,8 @@
 package com.reservas.reservas.servicios;
 
 import com.reservas.reservas.modelo.Cliente;
-import com.reservas.reservas.modelo.EstadoReserva;
 import com.reservas.reservas.modelo.Reserva;
+import com.universidad.reservas.comportamentales.state.EstadoPendiente;
 
 public class ProcesadorReservas {
 
@@ -11,6 +11,7 @@ public class ProcesadorReservas {
 
     public double confirmarReserva(Reserva reserva, double tarifaBase) {
         double tarifaFinal = calcularTarifaFinal(reserva, tarifaBase);
+        reserva.setTotal(tarifaFinal);
         reserva.confirmar();
         reservasConfirmadas++;
         totalFacturado += tarifaFinal;
@@ -26,7 +27,7 @@ public class ProcesadorReservas {
     public boolean puedeConfirmar(Reserva reserva) {
         return reserva != null && reserva.getCliente() != null
                 && !reserva.getCliente().estaBloqueado()
-                && reserva.getEstado() == EstadoReserva.PENDIENTE;
+                && reserva.getEstado() instanceof EstadoPendiente;
     }
 
     public int getReservasConfirmadas() { return reservasConfirmadas; }
@@ -49,7 +50,7 @@ public class ProcesadorReservas {
             throw new IllegalStateException(
                     "No se puede confirmar la reserva: el cliente está bloqueado");
         }
-        if (reserva.getEstado() != EstadoReserva.PENDIENTE) {
+        if (!(reserva.getEstado() instanceof EstadoPendiente)) {
             throw new IllegalStateException("Solo se pueden confirmar reservas pendientes");
         }
     }

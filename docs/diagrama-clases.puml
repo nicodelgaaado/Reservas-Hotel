@@ -1,0 +1,71 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+
+package "com.reservas.reservas.modelo" {
+  class Reserva {
+    - estado: EstadoReserva
+    - estrategiaCancelacion: EstrategiaCancelacion
+    - gestorEventos: GestorEventosReserva
+    - total: double
+    - multaCancelacion: double
+    + confirmar(): void
+    + cancelar(diasRestantes: int): void
+  }
+  class ReservaHabitacion
+  class Habitacion {
+    + liberar(): void
+  }
+  class Cliente
+}
+
+package "com.universidad.reservas.comportamentales.state" {
+  interface EstadoReserva {
+    + confirmar(contexto: Reserva): void
+    + cancelar(contexto: Reserva, diasRestantes: int): void
+  }
+  class EstadoPendiente
+  class EstadoConfirmada
+  class EstadoCancelada
+}
+
+package "com.universidad.reservas.comportamentales.strategy" {
+  interface EstrategiaCancelacion {
+    + calcularMulta(reserva: Reserva, diasRestantes: int): double
+  }
+  class CancelacionFlexible
+  class CancelacionEstricta
+}
+
+package "com.universidad.reservas.comportamentales.observer" {
+  interface ReservaObserver {
+    + onReservaCancelada(reserva: Reserva): void
+  }
+  class GestorEventosReserva {
+    - suscriptores: List<ReservaObserver>
+    + suscribir(observador: ReservaObserver): GestorEventosReserva
+    + desuscribir(observador: ReservaObserver): void
+    + notificarCancelacion(reserva: Reserva): void
+  }
+  class GestorHabitaciones
+  class NotificadorCliente
+}
+
+Reserva *-- EstadoReserva : estado actual
+Reserva *-- EstrategiaCancelacion : estrategia inyectada
+Reserva *-- GestorEventosReserva : publica mediante
+Reserva --> Cliente
+ReservaHabitacion --|> Reserva
+ReservaHabitacion --> Habitacion
+
+EstadoPendiente ..|> EstadoReserva
+EstadoConfirmada ..|> EstadoReserva
+EstadoCancelada ..|> EstadoReserva
+CancelacionFlexible ..|> EstrategiaCancelacion
+CancelacionEstricta ..|> EstrategiaCancelacion
+GestorHabitaciones ..|> ReservaObserver
+NotificadorCliente ..|> ReservaObserver
+GestorEventosReserva o-- "0..*" ReservaObserver : suscriptores
+GestorHabitaciones ..> Reserva : libera habitación
+NotificadorCliente ..> Reserva : notifica cliente
+@enduml

@@ -12,6 +12,9 @@ import com.reservas.reservas.creacionales.singleton.GeneradorFolioFiscal;
 import com.reservas.reservas.estructurales.adapter.*;
 import com.reservas.reservas.estructurales.decorator.*;
 import com.reservas.reservas.notificaciones.*;
+import com.universidad.reservas.comportamentales.observer.GestorEventosReserva;
+import com.universidad.reservas.comportamentales.observer.NotificadorCliente;
+import com.universidad.reservas.comportamentales.strategy.CancelacionEstricta;
 
 /**
  * @author Nicolas
@@ -20,7 +23,10 @@ public class Reservas {
 
     public static void main(String[] args) {
         Cliente cliente1 = new Cliente(1, "Nicolas Delgado", "1085123456", "nicolas@example.com", "3001234567");
-        Reserva reserva1 = new Reserva(cliente1, LocalDate.of(2026, 8, 20));
+        GestorEventosReserva eventos = new GestorEventosReserva()
+                .suscribir(new NotificadorCliente());
+        Reserva reserva1 = new Reserva(cliente1, LocalDate.of(2026, 9, 20),
+                100000, new CancelacionEstricta(), eventos);
         ProcesadorReservas procesador = new ProcesadorReservas();
 
         System.out.println(reserva1);
@@ -39,5 +45,8 @@ public class Reservas {
         CanalNotificacion notificador = new NotificadorSmsDecorator(
                 new NotificadorAuditoriaDecorator(new NotificacionWhatsApp()));
         notificador.notificar(cliente1, "Reserva confirmada");
+
+        reserva1.cancelar(5);
+        System.out.println("Después de cancelar: " + reserva1);
     }
 }

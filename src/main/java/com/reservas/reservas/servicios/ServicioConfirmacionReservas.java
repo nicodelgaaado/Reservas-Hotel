@@ -3,10 +3,10 @@ package com.reservas.reservas.servicios;
 import java.util.List;
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.EstadoReserva;
 import com.reservas.reservas.modelo.ReservaHabitacion;
 import com.reservas.reservas.notificaciones.CanalNotificacion;
 import com.reservas.reservas.persistencia.ReservaRepository;
+import com.universidad.reservas.comportamentales.state.EstadoPendiente;
 
 /** Caso de uso que depende de contratos, no de políticas, canales o archivos concretos. */
 public final class ServicioConfirmacionReservas {
@@ -25,6 +25,7 @@ public final class ServicioConfirmacionReservas {
     public double confirmar(ReservaHabitacion reserva, double tarifaBase) {
         validar(reserva);
         double tarifaFinal = calculadorTarifa.calcular(reserva, tarifaBase);
+        reserva.setTotal(tarifaFinal);
         reserva.confirmar();
         reserva.getHabitacion().ocupar();
         repositorio.guardarConfirmacion(reserva, tarifaFinal);
@@ -41,7 +42,7 @@ public final class ServicioConfirmacionReservas {
         if (reserva.getCliente().estaBloqueado()) {
             throw new IllegalStateException("No se puede confirmar la reserva: el cliente está bloqueado");
         }
-        if (reserva.getEstado() != EstadoReserva.PENDIENTE) {
+        if (!(reserva.getEstado() instanceof EstadoPendiente)) {
             throw new IllegalStateException("Solo se pueden confirmar reservas pendientes");
         }
         if (!reserva.getHabitacion().estaDisponible()) {
