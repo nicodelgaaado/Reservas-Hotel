@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import com.reservas.reservas.modelo.CapacidadMaxima;
 import com.reservas.reservas.modelo.Cliente;
 import com.reservas.reservas.modelo.Habitacion;
+import com.reservas.reservas.modelo.HabitacionEstandar;
 import com.reservas.reservas.modelo.NumeroHabitacion;
 import com.reservas.reservas.modelo.RangoFechas;
 import com.reservas.reservas.modelo.Reserva;
@@ -33,7 +34,7 @@ public final class PruebaPatronesComportamentales {
 
     private static void pruebaCancelacionEstrictaYObservadores() throws Exception {
         Cliente cliente = cliente(1);
-        Habitacion habitacion = new Habitacion(new NumeroHabitacion(101), new CapacidadMaxima(2));
+        Habitacion habitacion = new HabitacionEstandar(new NumeroHabitacion(101), new CapacidadMaxima(2), 2);
         ReservaHabitacion reserva = new ReservaHabitacion(100, cliente, habitacion,
                 new RangoFechas(LocalDate.of(2026, 10, 10), LocalDate.of(2026, 10, 12)));
         ByteArrayOutputStream correo = new ByteArrayOutputStream();

@@ -22,6 +22,6 @@ public final class CalculadorTarifa {
         for (PoliticaDescuento politica : politicas) {
             tarifa = Objects.requireNonNull(politica, "La política no puede ser nula").aplicar(reserva, tarifa);
         }
-        return tarifa;
+        return reserva.calcularTotalConRecargos(tarifa);
     }
 }

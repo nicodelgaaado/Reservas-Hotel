@@ -13,8 +13,19 @@ package "com.reservas.reservas.modelo" {
     + cancelar(diasRestantes: int): void
   }
   class ReservaHabitacion
-  class Habitacion {
+  abstract class Habitacion {
     + liberar(): void
+  }
+  class HabitacionEstandar {
+    - numeroCamas: int
+  }
+  class SuitePresidencial {
+    - amenidadesLujo: List<String>
+    - servicioMayordomo: boolean
+  }
+  class RangoFechas <<record>> {
+    + fechaInicio: LocalDate
+    + fechaFin: LocalDate
   }
   class Cliente
 }
@@ -54,7 +65,16 @@ package "com.universidad.reservas.comportamentales.observer" {
 Reserva *-- EstadoReserva : estado actual
 Reserva *-- EstrategiaCancelacion : estrategia inyectada
 Reserva *-- GestorEventosReserva : publica mediante
-Reserva --> Cliente
+Reserva --> "1" Cliente
+HabitacionEstandar --|> Habitacion
+SuitePresidencial --|> Habitacion
+Habitacion "1" o-- "0..*" Reserva : historial
+Reserva --> "1" RangoFechas : estadia
+interface PoliticaRecargo
+Reserva o-- "0..*" PoliticaRecargo : politicas aplicadas
+RecargoTemporadaAlta ..|> PoliticaRecargo
+RecargoCancelacionTardia ..|> PoliticaRecargo
+RecargoSinPenalizacion ..|> PoliticaRecargo
 ReservaHabitacion --|> Reserva
 ReservaHabitacion --> Habitacion
 

@@ -1,19 +1,22 @@
 package com.reservas.reservas.modelo;
 
 import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Entidad del dominio identificada por su número de habitación. */
-public final class Habitacion {
+public abstract class Habitacion {
 
     private final NumeroHabitacion numero;
     private final CapacidadMaxima capacidadMaxima;
     private EstadoHabitacion estado;
+    private final List<Reserva> historialReservas = new ArrayList<>();
 
-    public Habitacion(NumeroHabitacion numero, CapacidadMaxima capacidadMaxima) {
+    protected Habitacion(NumeroHabitacion numero, CapacidadMaxima capacidadMaxima) {
         this(numero, capacidadMaxima, EstadoHabitacion.DISPONIBLE);
     }
 
-    public Habitacion(NumeroHabitacion numero, CapacidadMaxima capacidadMaxima, EstadoHabitacion estado) {
+    protected Habitacion(NumeroHabitacion numero, CapacidadMaxima capacidadMaxima, EstadoHabitacion estado) {
         this.numero = Objects.requireNonNull(numero, "El número de habitación es obligatorio");
         this.capacidadMaxima = Objects.requireNonNull(capacidadMaxima, "La capacidad máxima es obligatoria");
         this.estado = Objects.requireNonNull(estado, "El estado de la habitación es obligatorio");
@@ -22,6 +25,19 @@ public final class Habitacion {
     public NumeroHabitacion getNumero() { return numero; }
     public CapacidadMaxima getCapacidadMaxima() { return capacidadMaxima; }
     public EstadoHabitacion getEstado() { return estado; }
+
+    public List<Reserva> getHistorialReservas() { return List.copyOf(historialReservas); }
+
+    /** Solo la asociación de dominio registra reservas; cancelar no borra el historial. */
+    void registrarReserva(ReservaHabitacion reserva) {
+        Objects.requireNonNull(reserva, "La reserva es obligatoria");
+        if (reserva.getHabitacion() != this) {
+            throw new IllegalArgumentException("La reserva pertenece a otra habitación");
+        }
+        if (historialReservas.stream().noneMatch(existente -> existente == reserva)) {
+            historialReservas.add(reserva);
+        }
+    }
 
     public boolean estaDisponible() { return estado == EstadoHabitacion.DISPONIBLE; }
 

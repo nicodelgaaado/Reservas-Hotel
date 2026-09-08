@@ -3,7 +3,8 @@ package com.reservas.reservas;
 import java.time.LocalDate;
 
 import com.reservas.reservas.modelo.Cliente;
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.modelo.*;
+import java.util.List;
 import com.reservas.reservas.persistencia.ArchivoReservas;
 import com.reservas.reservas.servicios.ProcesadorReservas;
 import com.reservas.reservas.creacionales.builder.PaqueteServicioBuilder;
@@ -25,8 +26,13 @@ public class Reservas {
         Cliente cliente1 = new Cliente(1, "Nicolas Delgado", "1085123456", "nicolas@example.com", "3001234567");
         GestorEventosReserva eventos = new GestorEventosReserva()
                 .suscribir(new NotificadorCliente());
-        Reserva reserva1 = new Reserva(cliente1, LocalDate.of(2026, 9, 20),
-                100000, new CancelacionEstricta(), eventos);
+        Habitacion habitacion = new SuitePresidencial(new NumeroHabitacion(501),
+                new CapacidadMaxima(4), List.of("Jacuzzi", "Terraza privada"), true);
+        Reserva reserva1 = new ReservaHabitacion(cliente1, habitacion,
+                new RangoFechas(LocalDate.of(2026, 9, 20), LocalDate.of(2026, 9, 23)));
+        reserva1.setEstrategiaCancelacion(new CancelacionEstricta());
+        reserva1.setGestorEventos(eventos);
+        reserva1.agregarPoliticaRecargo(PoliticaRecargoFactory.crear(TipoRecargo.TEMPORADA_ALTA));
         ProcesadorReservas procesador = new ProcesadorReservas();
 
         System.out.println(reserva1);
@@ -38,9 +44,8 @@ public class Reservas {
         var paquete = new PaqueteServicioBuilder().incluyeDesayuno().incluyeSpa()
                 .incluyeTransporteAeropuerto().numeroPersonas(2).build();
         System.out.println(paquete);
-        double recargo = PoliticaRecargoFactory.crear(TipoRecargo.TEMPORADA_ALTA).calcularRecargo(tarifaFinal);
         String folio = GeneradorFolioFiscal.getInstance().generarFolio();
-        String factura = new DianInvoiceAdapter("900123456-7").emitirFactura(reserva1, tarifaFinal + recargo);
+        String factura = new DianInvoiceAdapter("900123456-7").emitirFactura(reserva1, tarifaFinal);
         System.out.println(folio + " - " + factura);
         CanalNotificacion notificador = new NotificadorSmsDecorator(
                 new NotificadorAuditoriaDecorator(new NotificacionWhatsApp()));

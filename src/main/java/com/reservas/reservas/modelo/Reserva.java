@@ -3,6 +3,9 @@ package com.reservas.reservas.modelo;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
+import com.reservas.reservas.creacionales.factory.PoliticaRecargo;
 
 import com.reservas.reservas.utilidades.IdRandomizer;
 import com.universidad.reservas.comportamentales.observer.GestorEventosReserva;
@@ -15,7 +18,8 @@ public class Reserva {
 
     private int id;
     private Cliente cliente;
-    private LocalDate fechaInicio;
+    private RangoFechas estadia;
+    private final List<PoliticaRecargo> politicasRecargo = new ArrayList<>();
     private EstadoReserva estado;
     private EstrategiaCancelacion estrategiaCancelacion;
     private GestorEventosReserva gestorEventos;
@@ -39,9 +43,27 @@ public class Reserva {
     public Reserva(int id, Cliente cliente, LocalDate fechaInicio, double total,
                    EstrategiaCancelacion estrategiaCancelacion,
                    GestorEventosReserva gestorEventos) {
+        this(id, cliente, unaNoche(fechaInicio), total, estrategiaCancelacion, gestorEventos);
+    }
+
+    public Reserva(Cliente cliente, RangoFechas estadia) {
+        this(IdRandomizer.generar(), cliente, estadia);
+    }
+
+    public Reserva(int id, Cliente cliente, RangoFechas estadia) {
+        this(id, cliente, estadia, 0.0, new CancelacionFlexible(), new GestorEventosReserva());
+    }
+
+    public Reserva(Cliente cliente, RangoFechas estadia, double total,
+                   EstrategiaCancelacion estrategiaCancelacion, GestorEventosReserva gestorEventos) {
+        this(IdRandomizer.generar(), cliente, estadia, total, estrategiaCancelacion, gestorEventos);
+    }
+
+    public Reserva(int id, Cliente cliente, RangoFechas estadia, double total,
+                   EstrategiaCancelacion estrategiaCancelacion, GestorEventosReserva gestorEventos) {
         this.id = id;
         this.cliente = Objects.requireNonNull(cliente, "El cliente es obligatorio");
-        this.fechaInicio = Objects.requireNonNull(fechaInicio, "La fecha de inicio es obligatoria");
+        this.estadia = Objects.requireNonNull(estadia, "La estadía es obligatoria");
         validarMonto(total, "El total");
         this.total = total;
         this.estrategiaCancelacion = Objects.requireNonNull(
@@ -58,9 +80,38 @@ public class Reserva {
         this.cliente = Objects.requireNonNull(cliente, "El cliente es obligatorio");
     }
 
-    public LocalDate getFechaInicio() { return fechaInicio; }
+    private static RangoFechas unaNoche(LocalDate inicio) {
+        Objects.requireNonNull(inicio, "La fecha de inicio es obligatoria");
+        return new RangoFechas(inicio, inicio.plusDays(1));
+    }
+
+    public RangoFechas getEstadia() { return estadia; }
+    public LocalDate getFechaInicio() { return estadia.fechaInicio(); }
+    public LocalDate getFechaFin() { return estadia.fechaFin(); }
+
+    /** Reemplaza el valor inmutable conservando la duración de la estadía. */
     public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = Objects.requireNonNull(fechaInicio, "La fecha de inicio es obligatoria");
+        Objects.requireNonNull(fechaInicio, "La fecha de inicio es obligatoria");
+        estadia = new RangoFechas(fechaInicio, fechaInicio.plusDays(estadia.duracionEnDias()));
+    }
+
+    public List<PoliticaRecargo> getPoliticasRecargo() { return List.copyOf(politicasRecargo); }
+
+    public void agregarPoliticaRecargo(PoliticaRecargo politica) {
+        politicasRecargo.add(Objects.requireNonNull(politica, "La política es obligatoria"));
+    }
+
+    /** Suma los recargos sobre la misma base, sin capitalizarlos ni modificar el total. */
+    public double calcularTotalConRecargos(double montoBase) {
+        validarMonto(montoBase, "El monto base");
+        double resultado = montoBase;
+        for (PoliticaRecargo politica : politicasRecargo) {
+            double recargo = politica.calcularRecargo(montoBase);
+            validarMonto(recargo, "El recargo");
+            resultado += recargo;
+        }
+        validarMonto(resultado, "El total con recargos");
+        return resultado;
     }
 
     public EstadoReserva getEstado() { return estado; }
@@ -103,7 +154,7 @@ public class Reserva {
 
     /** Atajo que calcula los días restantes respecto de la fecha actual. */
     public void cancelar() {
-        int diasRestantes = (int) Math.max(0, ChronoUnit.DAYS.between(LocalDate.now(), fechaInicio));
+        int diasRestantes = (int) Math.max(0, ChronoUnit.DAYS.between(LocalDate.now(), getFechaInicio()));
         cancelar(diasRestantes);
     }
 
@@ -126,7 +177,7 @@ public class Reserva {
     @Override
     public String toString() {
         return "Reserva{id=" + id + ", cliente=" + cliente.getNombre()
-                + ", fechaInicio=" + fechaInicio + ", estado=" + estado
+                + ", estadia=" + estadia + ", estado=" + estado
                 + ", total=" + total + ", multaCancelacion=" + multaCancelacion + "}";
     }
 }

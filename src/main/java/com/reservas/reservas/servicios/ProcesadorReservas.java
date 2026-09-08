@@ -21,7 +21,7 @@ public class ProcesadorReservas {
     public double calcularTarifaFinal(Reserva reserva, double tarifaBase) {
         validarReserva(reserva, tarifaBase);
         double descuento = reserva.getCliente().getMembresia().getPorcentajeDescuento();
-        return tarifaBase * (1 - descuento);
+        return reserva.calcularTotalConRecargos(tarifaBase * (1 - descuento));
     }
 
     public boolean puedeConfirmar(Reserva reserva) {
