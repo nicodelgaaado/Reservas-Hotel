@@ -1,6 +1,6 @@
 # Reservas-Hotel
 
-Sistema de reservas hoteleras desarrollado en Java como ejercicio de Programación Orientada a Objetos.
+Sistema de reservas hoteleras desarrollado en Java 21 y Spring Boot 3.5.16 como ejercicio de Programación Orientada a Objetos.
 
 ## Patrones incluidos
 
@@ -20,25 +20,57 @@ Toda `Reserva` contiene un cliente, un estado dinámico y un `RangoFechas` inmut
 
 `agregarPoliticaRecargo()` incorpora implementaciones de `PoliticaRecargo`; `getPoliticasRecargo()` devuelve una copia no modificable. Ambos flujos de cálculo de tarifas aplican estos recargos después de los descuentos, sumándolos sobre la misma base sin capitalización. `calcularTotalConRecargos()` permite consultar el resultado sin modificar el total; la confirmación guarda el importe final.
 
-## Ejecución
+## Spring Boot
+
+`Reservas` inicia el contexto con `@SpringBootApplication`. `DemoReservas` implementa `CommandLineRunner` y recibe por constructor el procesador, el repositorio, el facturador y el canal de notificación. Al arrancar ejecuta la demostración original de confirmación, facturación y cancelación, y termina: sigue siendo una aplicación de consola, sin servidor HTTP.
+
+`configuracion/ReservasConfiguration` declara los beans de Spring. Las entidades y los patrones de diseño siguen siendo clases Java independientes del framework. El procesador usa alcance `prototype` para mantener sus contadores por consumidor. También se registra `ServicioConfirmacionReservas`, con descuento por membresía, recargos, persistencia y notificaciones. Las otras políticas de descuento se conservan para combinarlas explícitamente en el calculador cuando corresponda.
+
+La demostración guarda la confirmación mediante `ReservaRepository`, usando el formato del repositorio existente: `id|cliente|habitacion=numero|entrada|salida|tarifaFinal=importe`. Es un registro de confirmaciones en archivo; la cancelación posterior no elimina ni actualiza esa línea. Las notificaciones y la facturación siguen siendo simuladas.
+
+## Requisitos y ejecución
+
+Se requiere JDK 21. Se incluye Maven Wrapper, por lo que no es necesario instalar Maven. La primera ejecución necesita conexión para descargar Maven y las dependencias.
+
+En Windows (PowerShell):
+
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+En Linux/macOS:
 
 ```bash
-mvn compile exec:java
+sh mvnw spring-boot:run
 ```
 
-Sin Maven también se puede compilar con el JDK:
+Si tienes Maven instalado, también puedes usar `mvn spring-boot:run`.
+
+## Configuración
+
+Los valores están en `src/main/resources/application.properties`:
+
+| Propiedad | Valor predeterminado | Uso |
+| --- | --- | --- |
+| `reservas.demo.enabled` | `true` | Ejecuta la demostración al arrancar |
+| `reservas.archivo` | `reservas.txt` | Archivo de confirmaciones; admite la variable `RESERVAS_ARCHIVO` |
+| `reservas.facturacion.nit` | `900123456-7` | NIT del adaptador; admite la variable `RESERVAS_NIT` |
+
+Para iniciar únicamente el contexto, sin ejecutar la demostración ni escribir reservas:
 
 ```powershell
-$fuentes = Get-ChildItem -Recurse -Filter *.java src/main/java | ForEach-Object FullName
-javac -encoding UTF-8 -d target/classes $fuentes
-java -cp target/classes com.reservas.reservas.Reservas
+.\mvnw.cmd spring-boot:run "-Dspring-boot.run.arguments=--reservas.demo.enabled=false"
 ```
 
-## Pruebas sin dependencias externas
+## Pruebas y empaquetado
 
 ```powershell
-$fuentes = Get-ChildItem -Recurse -Filter *.java src/main/java,src/test/java | ForEach-Object FullName
-javac -encoding UTF-8 -d target/test-classes $fuentes
-java -ea -cp target/test-classes com.reservas.reservas.PruebaPatronesComportamentales
-java -ea -cp target/test-classes com.reservas.reservas.PruebaModeloHotel
+.\mvnw.cmd verify
+java -jar target/Reservas-1.0-SNAPSHOT.jar
 ```
+
+`verify` ejecuta las pruebas y genera un JAR ejecutable con sus dependencias. Las pruebas anteriores del modelo y los patrones se ejecutan mediante JUnit, con las aserciones habilitadas por Maven Surefire. Las pruebas de integración arrancan Spring, verifican la inyección de servicios, la confirmación y cancelación, el archivo generado y la activación/desactivación de la demostración. Utilizan directorios temporales.
+
+Para ejecutar solo las pruebas: `.\mvnw.cmd test`.
+
+Compatibilidad de Java y Maven: [requisitos oficiales de Spring Boot 3.5](https://docs.spring.io/spring-boot/3.5/system-requirements.html).
