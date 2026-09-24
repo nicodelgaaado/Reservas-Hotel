@@ -1,4 +1,4 @@
-package com.reservas.reservas.modelo;
+package com.reservas.reservas.domain;
 
 import java.util.Objects;
 import java.util.ArrayList;

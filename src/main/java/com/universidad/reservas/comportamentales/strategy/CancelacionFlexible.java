@@ -2,7 +2,7 @@ package com.universidad.reservas.comportamentales.strategy;
 
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 /** Política sin penalización por cancelación. */
 public final class CancelacionFlexible implements EstrategiaCancelacion {

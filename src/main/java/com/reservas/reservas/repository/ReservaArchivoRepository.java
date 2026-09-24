@@ -1,4 +1,4 @@
-package com.reservas.reservas.persistencia;
+package com.reservas.reservas.repository;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.ReservaHabitacion;
+import com.reservas.reservas.domain.ReservaHabitacion;
 
 /** Repositorio que añade una línea por cada reserva confirmada a un archivo plano. */
 public final class ReservaArchivoRepository implements ReservaRepository {

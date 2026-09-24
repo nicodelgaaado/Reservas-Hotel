@@ -1,6 +1,31 @@
 # Reservas-Hotel
 
-Sistema de reservas hoteleras desarrollado en Java 21 y Spring Boot 3.5.16 como ejercicio de Programación Orientada a Objetos.
+Sistema de reservas hoteleras desarrollado en Java 21 y Spring Boot 4.1.1 como ejercicio de Programación Orientada a Objetos.
+
+## Organización de paquetes
+
+Dentro de `src/main/java/com/reservas/reservas`:
+
+```text
+controller/      Adaptadores de entrada (reservado para una futura API)
+domain/          Entidades y objetos de valor; antes modelo
+dto/
+  request/       Contratos de entrada
+  response/      Contratos de salida
+mapper/          Conversiones entre DTO y dominio
+repository/      Contratos y persistencia en archivo; antes persistencia
+services/        Casos de uso y cálculo de tarifas; antes servicios
+configuracion/   Composición de dependencias y propiedades de Spring
+```
+
+Cada paquete incluye un `package-info.java` con su responsabilidad. `controller`,
+`dto` y `mapper` están preparados y documentados, sin clases de ejemplo ni endpoints:
+la aplicación sigue funcionando por consola mediante `DemoReservas`.
+Los futuros controladores delegarán en `services` y usarán `dto/request` y
+`dto/response`; los mappers convertirán los datos sin ejecutar reglas de negocio.
+Los servicios dependen del contrato `ReservaRepository`, y el dominio permanece
+independiente de Spring. Los paquetes de patrones de diseño conservan su organización
+para facilitar su estudio.
 
 ## Patrones incluidos
 
@@ -73,4 +98,4 @@ java -jar target/Reservas-1.0-SNAPSHOT.jar
 
 Para ejecutar solo las pruebas: `.\mvnw.cmd test`.
 
-Compatibilidad de Java y Maven: [requisitos oficiales de Spring Boot 3.5](https://docs.spring.io/spring-boot/3.5/system-requirements.html).
+Compatibilidad de Java y Maven: [requisitos oficiales de Spring Boot](https://docs.spring.io/spring-boot/system-requirements.html).

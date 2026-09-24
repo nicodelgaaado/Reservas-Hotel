@@ -1,7 +1,7 @@
 package com.reservas.reservas.estructurales.adapter;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 public final class DianInvoiceAdapter implements FacturadorElectronico {
     private final DianInvoiceSDK sdk; private final String nitEmpresa;
     public DianInvoiceAdapter(String nitEmpresa) { this(new DianInvoiceSDK(), nitEmpresa); }

@@ -15,11 +15,11 @@ import com.reservas.reservas.estructurales.decorator.NotificadorAuditoriaDecorat
 import com.reservas.reservas.estructurales.decorator.NotificadorSmsDecorator;
 import com.reservas.reservas.notificaciones.CanalNotificacion;
 import com.reservas.reservas.notificaciones.NotificacionWhatsApp;
-import com.reservas.reservas.persistencia.ReservaArchivoRepository;
-import com.reservas.reservas.persistencia.ReservaRepository;
-import com.reservas.reservas.servicios.CalculadorTarifa;
-import com.reservas.reservas.servicios.ProcesadorReservas;
-import com.reservas.reservas.servicios.ServicioConfirmacionReservas;
+import com.reservas.reservas.repository.ReservaArchivoRepository;
+import com.reservas.reservas.repository.ReservaRepository;
+import com.reservas.reservas.services.CalculadorTarifa;
+import com.reservas.reservas.services.ProcesadorReservas;
+import com.reservas.reservas.services.ServicioConfirmacionReservas;
 
 /** Composición de dependencias; el dominio permanece independiente de Spring. */
 @Configuration(proxyBeanMethods = false)

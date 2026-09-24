@@ -2,7 +2,7 @@ package com.universidad.reservas.comportamentales.observer;
 
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 /** Libera la habitación asociada cuando una reserva confirmada se cancela. */
 public final class GestorHabitaciones implements ReservaObserver {

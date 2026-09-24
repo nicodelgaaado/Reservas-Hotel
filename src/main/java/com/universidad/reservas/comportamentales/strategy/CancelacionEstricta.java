@@ -2,7 +2,7 @@ package com.universidad.reservas.comportamentales.strategy;
 
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 /** Penaliza con 50 % a menos de siete días y con 10 % en los demás casos. */
 public final class CancelacionEstricta implements EstrategiaCancelacion {

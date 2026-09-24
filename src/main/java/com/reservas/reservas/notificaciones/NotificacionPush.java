@@ -2,7 +2,7 @@ package com.reservas.reservas.notificaciones;
 
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.Cliente;
+import com.reservas.reservas.domain.Cliente;
 
 public final class NotificacionPush implements CanalNotificacion {
     @Override

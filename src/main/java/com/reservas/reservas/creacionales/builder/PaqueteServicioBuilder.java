@@ -1,6 +1,6 @@
 package com.reservas.reservas.creacionales.builder;
 
-import com.reservas.reservas.modelo.PaqueteServicio;
+import com.reservas.reservas.domain.PaqueteServicio;
 
 public final class PaqueteServicioBuilder {
     private boolean desayuno, spa, transporte;

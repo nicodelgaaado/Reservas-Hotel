@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 /** Publicador que administra y notifica observadores de reservas. */
 public final class GestorEventosReserva {

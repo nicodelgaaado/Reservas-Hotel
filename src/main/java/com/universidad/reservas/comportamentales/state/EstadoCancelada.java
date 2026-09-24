@@ -2,7 +2,7 @@ package com.universidad.reservas.comportamentales.state;
 
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 /** Estado terminal de una reserva. */
 public final class EstadoCancelada implements EstadoReserva {

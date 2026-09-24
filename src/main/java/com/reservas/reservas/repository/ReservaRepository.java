@@ -1,6 +1,6 @@
-package com.reservas.reservas.persistencia;
+package com.reservas.reservas.repository;
 
-import com.reservas.reservas.modelo.ReservaHabitacion;
+import com.reservas.reservas.domain.ReservaHabitacion;
 
 /** Abstracción de persistencia para no acoplar la confirmación a un medio concreto. */
 @FunctionalInterface

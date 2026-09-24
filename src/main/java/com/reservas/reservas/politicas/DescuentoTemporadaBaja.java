@@ -1,6 +1,6 @@
 package com.reservas.reservas.politicas;
 
-import com.reservas.reservas.modelo.ReservaHabitacion;
+import com.reservas.reservas.domain.ReservaHabitacion;
 
 /** Descuenta el 15 % de la tarifa sobre la cual se aplica. */
 public final class DescuentoTemporadaBaja implements PoliticaDescuento {

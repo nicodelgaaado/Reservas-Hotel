@@ -1,6 +1,6 @@
 package com.reservas.reservas.politicas;
 
-import com.reservas.reservas.modelo.ReservaHabitacion;
+import com.reservas.reservas.domain.ReservaHabitacion;
 
 /** Contrato abierto a nuevas reglas de descuento sin cambiar el calculador. */
 @FunctionalInterface

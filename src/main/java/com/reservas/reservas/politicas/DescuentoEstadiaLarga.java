@@ -1,6 +1,6 @@
 package com.reservas.reservas.politicas;
 
-import com.reservas.reservas.modelo.ReservaHabitacion;
+import com.reservas.reservas.domain.ReservaHabitacion;
 
 /** Descuenta el 25 % cuando la estadía supera siete días. */
 public final class DescuentoEstadiaLarga implements PoliticaDescuento {

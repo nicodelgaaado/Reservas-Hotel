@@ -1,4 +1,4 @@
-package com.reservas.reservas.modelo;
+package com.reservas.reservas.domain;
 
 /** Identificador inmutable de una habitación. */
 public record NumeroHabitacion(int valor) {

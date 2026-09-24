@@ -1,6 +1,6 @@
 package com.universidad.reservas.comportamentales.state;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 /** Estado polimórfico que controla el ciclo de vida de una reserva. */
 public interface EstadoReserva {

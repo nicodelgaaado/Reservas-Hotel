@@ -3,7 +3,7 @@ package com.universidad.reservas.comportamentales.observer;
 import java.io.PrintStream;
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 /** Simula el envío de un correo al cliente cuya reserva fue cancelada. */
 public final class NotificadorCliente implements ReservaObserver {

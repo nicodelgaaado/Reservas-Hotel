@@ -1,4 +1,4 @@
-package com.reservas.reservas.modelo;
+package com.reservas.reservas.domain;
 
 /** Cantidad máxima, inmutable y válida, de huéspedes de una habitación. */
 public record CapacidadMaxima(int valor) {

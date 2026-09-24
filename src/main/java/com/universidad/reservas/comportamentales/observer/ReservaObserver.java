@@ -1,6 +1,6 @@
 package com.universidad.reservas.comportamentales.observer;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 /** Suscriptor de eventos relevantes de una reserva. */
 @FunctionalInterface

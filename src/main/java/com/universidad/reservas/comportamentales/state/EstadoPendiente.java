@@ -2,7 +2,7 @@ package com.universidad.reservas.comportamentales.state;
 
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 /** Permite confirmar o cancelar una reserva que aún no ha sido confirmada. */
 public final class EstadoPendiente implements EstadoReserva {

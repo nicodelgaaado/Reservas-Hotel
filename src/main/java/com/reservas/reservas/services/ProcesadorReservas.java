@@ -1,7 +1,7 @@
-package com.reservas.reservas.servicios;
+package com.reservas.reservas.services;
 
-import com.reservas.reservas.modelo.Cliente;
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Cliente;
+import com.reservas.reservas.domain.Reserva;
 import com.universidad.reservas.comportamentales.state.EstadoPendiente;
 
 public class ProcesadorReservas {

@@ -2,7 +2,7 @@ package com.universidad.reservas.comportamentales.state;
 
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 /** Estado que permite cancelar aplicando la estrategia y publicando el evento. */
 public final class EstadoConfirmada implements EstadoReserva {

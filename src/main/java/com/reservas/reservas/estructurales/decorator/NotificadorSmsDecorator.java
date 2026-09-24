@@ -1,6 +1,6 @@
 package com.reservas.reservas.estructurales.decorator;
 import java.util.Objects;
-import com.reservas.reservas.modelo.Cliente;
+import com.reservas.reservas.domain.Cliente;
 import com.reservas.reservas.notificaciones.CanalNotificacion;
 public final class NotificadorSmsDecorator implements CanalNotificacion {
     private final CanalNotificacion base;

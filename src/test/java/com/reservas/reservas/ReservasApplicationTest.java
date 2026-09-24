@@ -9,8 +9,8 @@ import org.junit.jupiter.api.io.TempDir;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-import com.reservas.reservas.modelo.*;
-import com.reservas.reservas.servicios.ServicioConfirmacionReservas;
+import com.reservas.reservas.domain.*;
+import com.reservas.reservas.services.ServicioConfirmacionReservas;
 import com.universidad.reservas.comportamentales.observer.GestorEventosReserva;
 import com.universidad.reservas.comportamentales.observer.GestorHabitaciones;
 import com.universidad.reservas.comportamentales.state.EstadoConfirmada;

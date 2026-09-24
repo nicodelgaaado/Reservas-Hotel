@@ -1,9 +1,9 @@
-package com.reservas.reservas.servicios;
+package com.reservas.reservas.services;
 
 import java.util.List;
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.ReservaHabitacion;
+import com.reservas.reservas.domain.ReservaHabitacion;
 import com.reservas.reservas.politicas.PoliticaDescuento;
 
 /** Aplica una colección de políticas sin conocer sus implementaciones concretas. */

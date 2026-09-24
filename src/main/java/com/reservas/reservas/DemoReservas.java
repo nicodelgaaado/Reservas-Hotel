@@ -2,10 +2,10 @@ package com.reservas.reservas;
 
 import java.time.LocalDate;
 
-import com.reservas.reservas.modelo.*;
+import com.reservas.reservas.domain.*;
 import java.util.List;
-import com.reservas.reservas.persistencia.ReservaRepository;
-import com.reservas.reservas.servicios.ProcesadorReservas;
+import com.reservas.reservas.repository.ReservaRepository;
+import com.reservas.reservas.services.ProcesadorReservas;
 import com.reservas.reservas.creacionales.builder.PaqueteServicioBuilder;
 import com.reservas.reservas.creacionales.factory.*;
 import com.reservas.reservas.creacionales.singleton.GeneradorFolioFiscal;

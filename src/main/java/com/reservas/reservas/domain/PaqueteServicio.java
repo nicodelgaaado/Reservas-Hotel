@@ -1,4 +1,4 @@
-package com.reservas.reservas.modelo;
+package com.reservas.reservas.domain;
 
 public final class PaqueteServicio {
     private final boolean incluyeDesayuno;

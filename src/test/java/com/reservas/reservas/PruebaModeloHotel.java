@@ -3,9 +3,9 @@ package com.reservas.reservas;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import com.reservas.reservas.modelo.*;
+import com.reservas.reservas.domain.*;
 import com.reservas.reservas.creacionales.factory.*;
-import com.reservas.reservas.servicios.*;
+import com.reservas.reservas.services.*;
 import com.universidad.reservas.comportamentales.state.EstadoCancelada;
 
 /** Pruebas del modelo ejecutables con -ea, sin dependencias externas. */

@@ -1,11 +1,11 @@
-package com.reservas.reservas.servicios;
+package com.reservas.reservas.services;
 
 import java.util.List;
 import java.util.Objects;
 
-import com.reservas.reservas.modelo.ReservaHabitacion;
+import com.reservas.reservas.domain.ReservaHabitacion;
 import com.reservas.reservas.notificaciones.CanalNotificacion;
-import com.reservas.reservas.persistencia.ReservaRepository;
+import com.reservas.reservas.repository.ReservaRepository;
 import com.universidad.reservas.comportamentales.state.EstadoPendiente;
 
 /** Caso de uso que depende de contratos, no de políticas, canales o archivos concretos. */

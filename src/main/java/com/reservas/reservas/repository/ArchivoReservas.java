@@ -1,9 +1,9 @@
-package com.reservas.reservas.persistencia;
+package com.reservas.reservas.repository;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.reservas.reservas.modelo.Reserva;
+import com.reservas.reservas.domain.Reserva;
 
 public class ArchivoReservas {
     public static void guardar(Reserva reserva) {
