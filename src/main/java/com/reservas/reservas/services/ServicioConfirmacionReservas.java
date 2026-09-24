@@ -25,10 +25,11 @@ public final class ServicioConfirmacionReservas {
     public double confirmar(ReservaHabitacion reserva, double tarifaBase) {
         validar(reserva);
         double tarifaFinal = calculadorTarifa.calcular(reserva, tarifaBase);
+        // Un fallo de escritura debe dejar la reserva pendiente y la habitacion disponible.
+        repositorio.guardarConfirmacion(reserva, tarifaFinal);
         reserva.setTotal(tarifaFinal);
         reserva.confirmar();
         reserva.getHabitacion().ocupar();
-        repositorio.guardarConfirmacion(reserva, tarifaFinal);
 
         String mensaje = "Reserva " + reserva.getId() + " confirmada. Tarifa final: " + tarifaFinal;
         for (CanalNotificacion canal : canales) {

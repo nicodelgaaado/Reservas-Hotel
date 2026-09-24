@@ -1,6 +1,7 @@
 package com.reservas.reservas.repository;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,7 +32,7 @@ public final class ReservaArchivoRepository implements ReservaRepository {
             Files.writeString(archivo, linea, StandardCharsets.UTF_8,
                     StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
         } catch (IOException e) {
-            throw new IllegalStateException("No fue posible guardar la confirmación", e);
+            throw new UncheckedIOException("No fue posible guardar la confirmación", e);
         }
     }
 }

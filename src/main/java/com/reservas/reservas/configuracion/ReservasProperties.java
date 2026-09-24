@@ -16,7 +16,7 @@ public record ReservasProperties(
         @DefaultValue Facturacion facturacion) {
 
     /** @param enabled Ejecuta la demostracion al iniciar la aplicacion. */
-    public record Demo(@DefaultValue("true") boolean enabled) { }
+    public record Demo(@DefaultValue("false") boolean enabled) { }
 
     /** @param nit NIT del hotel utilizado para emitir facturas. */
     public record Facturacion(@DefaultValue("900123456-7") String nit) { }

@@ -1,6 +1,6 @@
 /**
- * Contratos de persistencia y sus implementaciones actuales en archivo.
- * Los servicios dependen de ReservaRepository; la configuracion de Spring
- * selecciona la implementacion concreta.
+ * Contratos de almacenamiento: HotelRepository conserva entidades en memoria
+ * y ReservaRepository registra confirmaciones en archivo. La configuracion de
+ * Spring selecciona las implementaciones concretas.
  */
 package com.reservas.reservas.repository;

@@ -20,11 +20,26 @@ import com.reservas.reservas.repository.ReservaRepository;
 import com.reservas.reservas.services.CalculadorTarifa;
 import com.reservas.reservas.services.ProcesadorReservas;
 import com.reservas.reservas.services.ServicioConfirmacionReservas;
+import com.reservas.reservas.services.HotelService;
+import com.reservas.reservas.mapper.HotelMapper;
+import com.reservas.reservas.repository.HotelRepository;
+import com.reservas.reservas.repository.HotelEnMemoriaRepository;
 
 /** Composición de dependencias; el dominio permanece independiente de Spring. */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ReservasProperties.class)
 public class ReservasConfiguration {
+    @Bean
+    HotelRepository hotelRepository() { return new HotelEnMemoriaRepository(); }
+
+    @Bean
+    HotelMapper hotelMapper() { return new HotelMapper(); }
+
+    @Bean
+    HotelService hotelService(HotelRepository repositorio, ServicioConfirmacionReservas confirmaciones) {
+        return new HotelService(repositorio, confirmaciones);
+    }
+
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     ProcesadorReservas procesadorReservas() {

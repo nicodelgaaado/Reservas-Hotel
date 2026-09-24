@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConditionalOnProperty(
-        name = "reservas.demo.enabled", havingValue = "true", matchIfMissing = true)
+        name = "reservas.demo.enabled", havingValue = "true")
 public class DemoReservas implements CommandLineRunner {
     private final ProcesadorReservas procesador;
     private final ReservaRepository repositorio;

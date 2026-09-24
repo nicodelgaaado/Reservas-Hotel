@@ -1,6 +1,6 @@
 /**
  * Adaptadores de entrada que delegan los casos de uso a services.
- * Reservado para futuros controladores HTTP; la entrada actual es DemoReservas.
+ * Controladores HTTP de clientes, habitaciones y reservas, y traduccion de errores.
  * Los controladores deben recibir y devolver DTO, sin acceder a archivos
  * ni implementar reglas de negocio.
  */
