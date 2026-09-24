@@ -3,7 +3,7 @@ package com.reservas.reservas.configuracion;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -23,6 +23,7 @@ import com.reservas.reservas.servicios.ServicioConfirmacionReservas;
 
 /** Composición de dependencias; el dominio permanece independiente de Spring. */
 @Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(ReservasProperties.class)
 public class ReservasConfiguration {
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -32,13 +33,13 @@ public class ReservasConfiguration {
     }
 
     @Bean
-    ReservaRepository reservaRepository(@Value("${reservas.archivo:reservas.txt}") String archivo) {
-        return new ReservaArchivoRepository(Path.of(archivo));
+    ReservaRepository reservaRepository(ReservasProperties propiedades) {
+        return new ReservaArchivoRepository(Path.of(propiedades.archivo()));
     }
 
     @Bean
-    FacturadorElectronico facturadorElectronico(@Value("${reservas.facturacion.nit:900123456-7}") String nit) {
-        return new DianInvoiceAdapter(nit);
+    FacturadorElectronico facturadorElectronico(ReservasProperties propiedades) {
+        return new DianInvoiceAdapter(propiedades.facturacion().nit());
     }
 
     @Bean

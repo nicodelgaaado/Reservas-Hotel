@@ -17,7 +17,8 @@ public final class SuitePresidencial extends Habitacion {
         super(numero, capacidadMaxima, estado);
         this.amenidadesLujo = List.copyOf(Objects.requireNonNull(amenidadesLujo,
                 "Las amenidades son obligatorias"));
-        if (this.amenidadesLujo.isEmpty() || this.amenidadesLujo.stream().anyMatch(String::isBlank)) {
+        if (this.amenidadesLujo.isEmpty() || this.amenidadesLujo.stream()
+                .anyMatch(amenidad -> Objects.requireNonNull(amenidad).isBlank())) {
             throw new IllegalArgumentException("Debe indicar amenidades de lujo no vacías");
         }
         this.servicioMayordomo = servicioMayordomo;
